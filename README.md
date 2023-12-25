@@ -1,45 +1,43 @@
-# approve.test
+# approve.test 🌟
 
-An approval testing library for Clojure, compatible with `clojure.test`.
+An intuitive and lightweight approval testing library for Clojure, seamlessly integrated with `clojure.test`.
 
-## Usage
+**Why approve.test?** 🚀
+- 📚 **Simplicity First**: Designed for Clojure developers new to approval testing. Easy to learn and quick to implement!
+- 💾 **EDN Snapshot Storage**: Leverages pretty-printed EDN for storing test snapshots, embracing Clojure's strengths.
+- 🔗 **Seamless Integration**: Automatically hooks into `clojure.test`, ensuring a frictionless testing workflow.
+- 🪶 **Lightweight**: A minimalistic and efficient alternative to Java-based approval testing frameworks.
+- 🛠️ **Extensible**: Customize to fit your unique testing scenarios.
+- 🌱 **Status: Alpha**: Actively developed, inviting contributions and feedback!
+
+## What is Approval Testing? 🤔
+
+Approval Testing is a testing technique where the test output is compared against a pre-approved snapshot. It’s especially useful for code generating complex or large outputs. If the output matches the snapshot, the test passes; if not, it fails.
+
+## Usage 🛠️
+
+The core function in `approve.test` is `verify`. Here's how to get started:
 
 ```clojure
 (ns a.test.namespace
   (:require [clojure.test :refer [deftest testing is]]
-            [tech.thomascothran.approve :refer [verify default-config]]))
+            [tech.thomascothran.approve.test.alpha 
+             :refer [verify]]))
 
-(approve my-test
+(deftest my-test
   (let [sorted-names (sort ["Charles" "Alice" "Diane" "Ben"])]
     (verify correctly-sorted default-config sorted-names))
 ```
 
-This will produce a file at `test-resources/approve/a.test.namespace/my-test/correctly-sorted.received.edn`
+This creates a snapshot file at `test-resources/approve/a/test/namespace/my-test/correctly-sorted.received.edn`. Initially, manually review and rename it to `correctly-sorted.accepted.edn`. Future tests will compare against this snapshot.
 
-## Developing on approve.clj
+## Extensibility through Multimethods 🔄
 
-Run the project's tests (they'll fail until you edit them):
+`approve.test` is highly extensible via multimethods. You have the flexibility to tailor the following aspects:
 
-    $ clojure -T:build test
-
-Run the project's CI pipeline and build a JAR (this will fail until you edit the tests to pass):
-
-    $ clojure -T:build ci
-
-This will produce an updated `pom.xml` file with synchronized dependencies inside the `META-INF`
-directory inside `target/classes` and the JAR in `target`. You can update the version (and SCM tag)
-information in generated `pom.xml` by updating `build.clj`.
-
-Install it locally (requires the `ci` task be run first):
-
-    $ clojure -T:build install
-
-Deploy it to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment
-variables (requires the `ci` task be run first):
-
-    $ clojure -T:build deploy
-
-Your library will be deployed to net.clojars.approve/approve on clojars.org by default.
+- 🔄 **Serialization Format**: Not a fan of EDN? Choose a format that suits your needs.
+- 🗂️ **Storage**: Prefer storing your snapshots somewhere other than a file? Customize the storage medium.
+- 🛣️ **Paths**: Want to change where snapshots are stored? Easily modify the paths to fit your directory structure.
 
 ## License
 

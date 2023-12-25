@@ -1,7 +1,7 @@
-(ns approve.approve-test
+(ns thomascothran.approve.test.alpha-test
   (:require [clojure.test :refer [deftest testing is]
              :as t]
-            [tech.thomascothran.approve.alpha :as a]))
+            [tech.thomascothran.approve.test.alpha :as a]))
 
 (deftest ima-deftest
   (testing "a"
@@ -12,7 +12,8 @@
   (ima-deftest))
 
 (deftest test-vars->path
-  (let [test-vars [#'approve.approve-test/ima-deftest]
+  (let [test-vars [#'thomascothran.approve.test.alpha-test/ima-deftest]
+
         expected ["approve" "approve-test" "ima-deftest"]]
     (is (= expected
            (#'a/test-vars->path test-vars)))))
@@ -23,13 +24,13 @@
 (deftest test->path
   (testing "a"
     (testing "b"
-      (is (= ["approve" "approve-test" "test->path" "a" "b"]
+      (is (= ["thomascothran" "approve" "test" "alpha-test" "test->path"]
              (#'a/->path)))))
 
   (testing "with explicit bindings"
-    (let [test-vars [#'approve.approve-test/ima-deftest]
+    (let [test-vars [#'thomascothran.approve.test.alpha-test/ima-deftest]
           test-context '("b" "a")
-          expected  ["approve" "approve-test" "ima-deftest"]]
+          expected  ["thomascothran" "approve" "test" "alpha-test" "ima-deftest"]]
       (is (= expected
              (#'a/->path test-vars test-context)))))
 

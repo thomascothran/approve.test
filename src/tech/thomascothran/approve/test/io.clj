@@ -1,10 +1,9 @@
-(ns tech.thomascothran.approve.io
-  (:refer-clojure :exclude [get])
+(ns tech.thomascothran.approve.test.io
+  (:refer-clojure :exclude [get read])
   (:require [clojure.string :as str]
             [clojure.pprint :as pp]
             [clojure.edn :as edn])
-  (:import [java.io File FileNotFoundException]
-           [java.nio.file Paths Files]))
+  (:import [java.io File FileNotFoundException]))
 
 (defn- path-seq->string
   [path-seq]
@@ -27,6 +26,7 @@
 (defmethod read
   :file
   [_store path]
+  (def rp path)
   (try (-> (slurp path)
            (edn/read-string))
        (catch FileNotFoundException _)))
@@ -50,10 +50,10 @@
   (let [encoded-value (with-out-str (pp/pprint value))
         decoded-value (decode :edn/pretty-print encoded-value)]
     (when (not= value decoded-value)
-      (throw "Cannot round trip values"
-             {:value value
-              :encoded-value encoded-value
-              :decoded-value decoded-value}))
+      (throw (ex-info "Cannot round trip values"
+                      {:value value
+                       :encoded-value encoded-value
+                       :decoded-value decoded-value})))
     encoded-value))
 
 (comment
@@ -77,12 +77,12 @@
 
 (defmethod make-path
   :file
-  [_store {:keys [encoder input-type approval-test-name validation-name root]
+  [_store {:keys [encoder input-type test-path validation-name root]
            :or {root ["test-resources" "approve"]}}]
   (let [extension-type (encoding-format->file-extension encoder)
         input-type (case input-type :received "received" :approved "approved")
         filename (str validation-name "." input-type "." extension-type)
-        path-seq (into root [approval-test-name filename])]
+        path-seq (reduce into root [test-path [filename]])]
     (path-seq->string path-seq)))
 
 (comment

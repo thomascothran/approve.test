@@ -1,7 +1,7 @@
-(ns tech.thomascothran.approve.alpha
-  (:require [clojure.test :refer [is]]
+(ns tech.thomascothran.approve.test.alpha
+  (:require [clojure.test :refer [is] :as t]
             [clojure.string :as str]
-            [tech.thomascothran.approve.io :as io]))
+            [tech.thomascothran.approve.test.io :as io]))
 
 (def ^:dynamic *approval-test-store*
   :file)
@@ -32,8 +32,8 @@
      (assert test-path)
      (io/save-received! store value opts)
      (let [previous-value (io/get-approved store opts)]
-       (is (= previous-value value
-              "The previously received value should match the current value"))))))
+       (is (= previous-value value)
+           "The previously received value should match the current value")))))
 
 (comment
   (str *ns*))
