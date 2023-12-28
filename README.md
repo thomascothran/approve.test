@@ -5,7 +5,6 @@
 An intuitive and lightweight approval testing library for Clojure, seamlessly integrated with `clojure.test`.
 
 **Why approve.test?** 🚀
-- 📚 **Simplicity First**: Designed for Clojure developers new to approval testing. Easy to learn and quick to implement!
 - 💾 **EDN Snapshot Storage**: Leverages pretty-printed EDN for storing test snapshots, embracing Clojure's strengths.
 - 🔗 **Seamless Integration**: Automatically hooks into `clojure.test`, ensuring a frictionless testing workflow.
 - 🪶 **Lightweight**: A minimalistic and efficient alternative to Java-based approval testing frameworks.
@@ -28,7 +27,7 @@ The core function in `approve.test` is `verify`. Here's how to get started:
 
 (deftest my-test
   (let [sorted-names (sort ["Charles" "Alice" "Diane" "Ben"])]
-    (verify :correctly-sorted default-config sorted-names))
+    (verify :correctly-sorted sorted-names))
 ```
 
 This creates a snapshot file at `test-resources/approve/a/test/namespace/my-test/correctly-sorted.received.edn`. Initially, manually review and rename it to `correctly-sorted.accepted.edn`. Future tests will compare against this snapshot.
@@ -40,6 +39,10 @@ This creates a snapshot file at `test-resources/approve/a/test/namespace/my-test
 - 🔄 **Serialization Format**: Not a fan of EDN? Choose a format that suits your needs.
 - 🗂️ **Storage**: Prefer storing your snapshots somewhere other than a file? Customize the storage medium.
 - 🛣️ **Paths**: Want to change where snapshots are stored? Easily modify the paths to fit your directory structure.
+
+## Prior Art
+
+- [Approval Tests](https://approvaltests.com/)
 
 ## License
 
